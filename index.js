@@ -2,7 +2,28 @@ const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
+const useRoutes = require('./routes');
+const mongoose = require('mongoose');
+const validate = require('./helpers/secret_validation');
 
-app.listen(process.env.PORT, () =>
-  console.log('Listening port: ', process.env.PORT)
-);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(validate);
+
+useRoutes(app);
+
+const start = async () => {
+  await mongoose
+    .connect(process.env.MONGO_URI, {
+      useUnifiedTopology: 1,
+      useNewUrlParser: 1,
+    })
+    .then(() => console.log('Successful connection to MongoDB'))
+    .catch(err => console.log(err.message));
+
+  app.listen(process.env.PORT, () =>
+    console.log('Listening port: ', process.env.PORT)
+  );
+};
+
+start();
