@@ -1,20 +1,23 @@
 const { Router } = require('express');
 const router = Router();
-const { users } = require('../models');
+const { createUser } = require('../helpers/mongo');
+const { throwError, errors } = require('../helpers/errors');
 
 router.post('/register', async (req, res) => {
   try {
     const { body } = req;
+    const { user, password } = body;
 
-    if (!(body.user && body.password))
-      return res.status(400).send({ message: 'Incorrect data' });
+    if (!(user && password)) throwError(6000);
 
-    await users.create(body);
+    await createUser(body);
     res.send({ message: `Added new user ${body.user}` });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    if (errors.has(e.code)) res.status(400);
+    else res.status(500);
+    console.error(e);
+    res.send({ code: e.code, message: e.message });
   }
-  // res.send(body);
 });
 
 module.exports = router;
