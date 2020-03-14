@@ -15,4 +15,11 @@ const throwError = errorcode => {
   throw err;
 };
 
-module.exports = { throwError, errors };
+const handler = (e, req, res, next) => {
+  if (errors.has(e.code)) res.status(400);
+  else res.status(500);
+  console.error(e);
+  res.send({ code: e.code, message: e.message });
+};
+
+module.exports = { throwError, errors, handler };

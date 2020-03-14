@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const { createUser, findUser } = require('../helpers/mongo');
-const { throwError, errors } = require('../helpers/errors');
+const { throwError } = require('../helpers/errors');
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
   try {
     const { body } = req;
     const { user, password } = body;
@@ -13,14 +13,11 @@ router.post('/register', async (req, res) => {
     await createUser(body);
     res.send({ message: `Added new user ${body.user}` });
   } catch (e) {
-    if (errors.has(e.code)) res.status(400);
-    else res.status(500);
-    console.error(e);
-    res.send({ code: e.code, message: e.message });
+    next(e);
   }
 });
 
-router.get('/login', async (req, res) => {
+router.get('/login', async (req, res, next) => {
   try {
     const { body } = req;
     const { user, password } = body;
@@ -32,10 +29,7 @@ router.get('/login', async (req, res) => {
       message: `User found ${JSON.stringify(account).replace(/\r?"|\r/g, ' ')}`,
     });
   } catch (e) {
-    if (errors.has(e.code)) res.status(400);
-    else res.status(500);
-    console.error(e);
-    res.send({ code: e.code, message: e.message });
+    next(e);
   }
 });
 

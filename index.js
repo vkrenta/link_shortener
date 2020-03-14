@@ -5,12 +5,13 @@ const app = express();
 const useRoutes = require('./routes');
 const mongoose = require('mongoose');
 const validate = require('./helpers/secret_validation');
+const { handler } = require('./helpers/errors');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(validate);
-
 useRoutes(app);
+app.use(handler);
 
 const start = async () => {
   await mongoose
