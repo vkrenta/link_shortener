@@ -6,9 +6,13 @@ const useRoutes = require('./routes');
 const mongoose = require('mongoose');
 const validate = require('./helpers/secret_validation');
 const { handler } = require('./helpers/errors');
+const endMiddleware = require('./helpers/end_middleware');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(endMiddleware);
+
 app.use(validate);
 useRoutes(app);
 app.use(handler);
