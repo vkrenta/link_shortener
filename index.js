@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+require('console-stamp')(console, 'HH:MM:ss.l');
 dotenv.config();
 const app = express();
 const useRoutes = require('./routes');

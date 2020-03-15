@@ -1,4 +1,4 @@
-const { users } = require('../models');
+const { users, links } = require('../models');
 const { throwError } = require('./errors');
 
 const createUser = body =>
@@ -18,7 +18,28 @@ const findUser = (user, password) =>
       throwError(5001);
     });
 
+const findLink = (user, long) =>
+  links
+    .findOne({ user, long })
+    .exec()
+    .then(data => {
+      if (data) {
+        console.log('Found link', data.short);
+        return data.short;
+      }
+    });
+
+const createLink = async (user, long, short) => {
+  return (
+    (await findLink(user, long)) ||
+    links
+      .create({ user, long, short })
+      .then(() => console.log('Created link', short))
+  );
+};
+
 module.exports = {
   createUser,
   findUser,
+  createLink,
 };
