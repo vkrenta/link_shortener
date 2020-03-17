@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { throwError } = require('../helpers/errors');
-const { createLink, getShortLink } = require('../helpers/mongo');
+const { createLink } = require('../helpers/mongo');
 
 router.post('/', async (req, res, next) => {
   try {
@@ -10,10 +10,9 @@ router.post('/', async (req, res, next) => {
 
     if (!(user && long)) throwError(6000);
 
-    const short = getShortLink();
-    await createLink(user, long, short);
+    const link = await createLink(user, long);
 
-    res.send(body);
+    res.status(200).send({ short: link });
   } catch (e) {
     next(e);
   }

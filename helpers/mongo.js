@@ -30,31 +30,33 @@ const findLink = (user, long) =>
       }
     });
 
-const createLink = async (user, long, short) => {
+const createLink = async (user, long) => {
   return (
     (await findLink(user, long)) ||
-    links.create({ user, long, short }).then(async data => {
-      console.log('Created link', data.short);
-      await setShortLink(short);
-      return data.short;
-    })
+    links
+      .create({ user, long, short: await nextShortLink() })
+      .then(async data => {
+        console.log('Created link', data.short);
+        await setShortLink(data.short);
+        return data.short;
+      })
   );
 };
 
 const setShortLink = async short => {
-  return (
-    (await shortCounter.updateOne({ short }).exec()) || shortCounter.create()
-  );
+  return shortCounter.updateOne({ short }).exec();
 };
-const getShortLink = async () => {
-  let { short } = await shortCounter.findOne().exec();
-  console.log('Founded short', short);
-  short = generateLink(short);
+
+const nextShortLink = async () => {
+  const counter = await shortCounter.findOne().exec();
+  if (counter && counter.short) return generateLink(counter.short);
+
+  return (await shortCounter.create({ short: '0' })).short;
 };
 
 module.exports = {
   createUser,
   findUser,
   createLink,
-  getShortLink,
+  nextShortLink,
 };
