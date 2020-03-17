@@ -1,5 +1,6 @@
-const { users, links } = require('../models');
+const { users, links, shortCounter } = require('../models');
 const { throwError } = require('./errors');
+const generateLink = require('./link_generator');
 
 const createUser = body =>
   users
@@ -14,7 +15,7 @@ const findUser = (user, password) =>
     .findOne({ user, password })
     .exec()
     .then(data => {
-      if (data) return { id: data._id, user, password };
+      if (data) return { user };
       throwError(5001);
     });
 
@@ -32,14 +33,28 @@ const findLink = (user, long) =>
 const createLink = async (user, long, short) => {
   return (
     (await findLink(user, long)) ||
-    links
-      .create({ user, long, short })
-      .then(() => console.log('Created link', short))
+    links.create({ user, long, short }).then(async data => {
+      console.log('Created link', data.short);
+      await setShortLink(short);
+      return data.short;
+    })
   );
+};
+
+const setShortLink = async short => {
+  return (
+    (await shortCounter.updateOne({ short }).exec()) || shortCounter.create()
+  );
+};
+const getShortLink = async () => {
+  let { short } = await shortCounter.findOne().exec();
+  console.log('Founded short', short);
+  short = generateLink(short);
 };
 
 module.exports = {
   createUser,
   findUser,
   createLink,
+  getShortLink,
 };

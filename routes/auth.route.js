@@ -11,7 +11,7 @@ router.post('/register', async (req, res, next) => {
     if (!(user && password)) throwError(6000);
 
     await createUser(body);
-    res.send({ message: `Added new user ${body.user}` });
+    res.send({ message: `Added new user ${body.user}`, code: 1001 });
   } catch (e) {
     next(e);
   }
@@ -26,7 +26,8 @@ router.get('/login', async (req, res, next) => {
 
     const account = await findUser(user, password);
     res.send({
-      message: `User found ${JSON.stringify(account).replace(/\r?"|\r/g, ' ')}`,
+      message: `User found ${account.user}`,
+      code: 1000,
     });
   } catch (e) {
     next(e);
