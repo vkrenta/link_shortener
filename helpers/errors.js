@@ -12,7 +12,7 @@ errors
   });
 
 const throwError = errorcode => {
-  const err = new Error();
+  const err = {};
   const { code, message } = errors.get(errorcode);
   err.code = code;
   err.message = message;
