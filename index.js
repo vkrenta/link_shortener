@@ -9,7 +9,7 @@ const validate = require('./helpers/secret_validation');
 const { handler } = require('./helpers/errors');
 const endMiddleware = require('./helpers/end_middleware');
 
-app.use(express.json());
+app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(endMiddleware);

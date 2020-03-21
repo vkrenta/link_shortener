@@ -14,7 +14,7 @@ const endMiddleware = (req, res, next) => {
     }
     const body = Buffer.concat(chunks).toString('utf8');
 
-    console.log('Response:', JSON.parse(body));
+    console.log('Response:', /* JSON.parse(body) */ body);
 
     defaultEnd.apply(res, restArgs);
   };
