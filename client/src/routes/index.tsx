@@ -1,12 +1,15 @@
-import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import React, { FunctionComponent } from 'react';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import Nomatch from './Nomatch';
+import { useSelector } from 'react-redux';
 
-const useRoutes = (isAuthentificated: boolean) => {
-  if (!isAuthentificated)
+const useRoutes = () => {
+  console.log('Triggered');
+  const user = useSelector((state: any) => state.currentUser);
+  if (!user.authenticated)
     return (
       <>
         <ul>
@@ -15,6 +18,9 @@ const useRoutes = (isAuthentificated: boolean) => {
           </li>
           <li>
             <Link to="/signup">Sign up</Link>
+          </li>
+          <li>
+            <Link to="/">Home</Link>
           </li>
         </ul>
 
@@ -57,12 +63,12 @@ const useRoutes = (isAuthentificated: boolean) => {
       <hr />
 
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <Home />
         </Route>
-        <Route></Route>
-        <Route></Route>
-        <Route></Route>
+        <Route path="/signup">
+          <Redirect to="/" />
+        </Route>
       </Switch>
     </>
   );

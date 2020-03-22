@@ -16,6 +16,6 @@ export const registerUser = (user: string, password: string): Action => {
 export const setUser = (user: string): Action => {
   return {
     type: SET_USER,
-    payload: { user },
+    payload: { user: user, authenticated: true },
   };
 };

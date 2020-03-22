@@ -1,10 +1,10 @@
 import React from 'react';
 import 'materialize-css';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
-import useRoutes from './routes';
+import UseRoutes from './routes';
 import createSagaMiddleWare from 'redux-saga';
 import { watchRegister } from './sagas/register.sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -15,15 +15,17 @@ const App = () => {
     rootReducer,
     composeWithDevTools(applyMiddleware(sagaMiddleWare))
   );
-
-  store.subscribe(console.log);
+  //const user = useSelector((state: any) => state.currentUser);
+  console.log(store.getState());
 
   sagaMiddleWare.run(watchRegister);
   return (
     <Provider store={store}>
       <div className="container">
         <BrowserRouter>
-          <div>{useRoutes(false)}</div>
+          <div>
+            <UseRoutes />
+          </div>
         </BrowserRouter>
       </div>
     </Provider>

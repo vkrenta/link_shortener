@@ -1,17 +1,17 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import authentificate from '../api/auth.api';
-import { SET_USER, REGISTER_USER, setUser } from '../actions';
+import authenticate from '../api/auth.api';
+import { REGISTER_USER, setUser } from '../actions';
 
 function* workerRegister(action: any) {
   try {
     console.log(action);
     const account = yield call(
-      authentificate,
+      authenticate,
       action.payload.user,
       action.payload.password
     );
 
-    yield put(setUser(account));
+    yield put(setUser(account.user));
   } catch (e) {
     console.log(e);
   }
