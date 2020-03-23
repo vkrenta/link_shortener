@@ -1,1 +1,35 @@
 @import '~materialize-css/dist/css/materialize.min.css';
+
+* {
+  box-sizing: border-box !important;
+}
+
+.hello-card-action {
+  display: flex;
+  padding: 10px 0px !important;
+  align-items: center;
+}
+
+#hello-action-link-left {
+  width: 50%;
+  margin: 0px 10px 0px 20px !important;
+}
+
+#hello-action-link-right {
+  width: 50%;
+  margin: 0px 20px 0px 10px !important;
+}
+
+.hello-card-action > * > button {
+  width: 100%;
+}
+
+.bad-input > input {
+  border-bottom-color: rgb(244, 67, 54) !important;
+  border-width: 2px !important;
+  box-shadow: rgb(244, 67, 54) 0px 1px 0px 0px !important;
+}
+
+.bad-input > input:focus + label {
+  color: rgb(244, 67, 54) !important;
+}

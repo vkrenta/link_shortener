@@ -21,7 +21,7 @@ const App = () => {
   sagaMiddleWare.run(watchRegister);
   return (
     <Provider store={store}>
-      <div className="container">
+      <div>
         <BrowserRouter>
           <div>
             <UseRoutes />
