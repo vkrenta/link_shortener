@@ -5,8 +5,6 @@ export interface Action {
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const SET_USER = 'SET_USER';
-export const ENABLE_BUTTON = 'ENABLE_BUTTON';
-export const DISABLE_BUTTON = 'DISABLE_BUTTON';
 
 export const registerUser = (user: string, password: string): Action => {
   return {
@@ -21,6 +19,9 @@ export const setUser = (user: string): Action => {
     payload: { user: user, authenticated: true },
   };
 };
+
+export const ENABLE_BUTTON = 'ENABLE_BUTTON';
+export const DISABLE_BUTTON = 'DISABLE_BUTTON';
 
 export const enableButton = (): Action => {
   return {
@@ -59,3 +60,10 @@ export const clearError = (): Action => {
     type: CLEAR_ERROR,
   };
 };
+
+export const INIT_PRELOADER = 'INIT_PRELOADER';
+export const END_PRELOADER = 'END_PRELOADER';
+
+export const initPreloader = (): Action => ({ type: INIT_PRELOADER });
+
+export const endPreloader = (): Action => ({ type: END_PRELOADER });

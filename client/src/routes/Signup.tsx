@@ -13,6 +13,7 @@ const Signup = () => {
     (state: any) => state.isButtonDisabled
   );
   const error = useSelector((state: any) => state.error);
+  const inProcess: boolean = useSelector((state: any) => state.inProcess);
 
   return (
     <div>
@@ -54,30 +55,72 @@ const Signup = () => {
               </div>
             </div>
             <div className="card-action">
-              <button
-                disabled={buttonState}
-                className="btn waves-effect waves-light blue"
-                onClick={() => registerOnClick(email, password, dispatch)}
-              >
-                Sign Up
-              </button>
+              <ButtonOrPreloader
+                inProcess={inProcess}
+                buttonState={buttonState}
+                email={email}
+                password={password}
+                dispatch={dispatch}
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-
-  function registerOnClick(
-    email: React.RefObject<HTMLInputElement>,
-    password: React.RefObject<HTMLInputElement>,
-    dispatch: Dispatch
-  ) {
-    if (email.current && password.current) {
-      dispatch(registerUser(email.current.value, password.current.value));
-    }
-  }
 };
+
+type preloaderProps = {
+  inProcess: boolean;
+  buttonState: boolean;
+  email: React.RefObject<HTMLInputElement>;
+  password: React.RefObject<HTMLInputElement>;
+  dispatch: Dispatch;
+};
+
+const ButtonOrPreloader: React.FC<preloaderProps> = ({
+  inProcess,
+  buttonState,
+  email,
+  password,
+  dispatch,
+}) => {
+  if (inProcess)
+    return (
+      <div className="preloader-wrapper small active">
+        <div className="spinner-layer spinner-green-only">
+          <div className="circle-clipper left">
+            <div className="circle" />
+          </div>
+          <div className="gap-patch">
+            <div className="circle" />
+          </div>
+          <div className="circle-clipper right">
+            <div className="circle" />
+          </div>
+        </div>
+      </div>
+    );
+  return (
+    <button
+      disabled={buttonState}
+      className="btn waves-effect waves-light blue"
+      onClick={() => registerOnClick(email, password, dispatch)}
+    >
+      Sign Up
+    </button>
+  );
+};
+
+function registerOnClick(
+  email: React.RefObject<HTMLInputElement>,
+  password: React.RefObject<HTMLInputElement>,
+  dispatch: Dispatch
+) {
+  if (email.current && password.current) {
+    dispatch(registerUser(email.current.value, password.current.value));
+  }
+}
 
 function enableButtonOnInput(
   email: React.RefObject<HTMLInputElement>,
