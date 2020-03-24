@@ -1,14 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Dispatch } from 'redux';
-import { registerUser } from '../actions';
+import { registerUser, enableButton, disableButton } from '../actions';
 
 const Signup = () => {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const passwordInputDiv = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-  const button = useRef<HTMLButtonElement>(null);
+  const buttonState: boolean = useSelector(
+    (state: any) => state.isButtonDisabled
+  );
+  const error = useSelector((state: any) => state.error);
 
   return (
     <div>
@@ -35,7 +38,9 @@ const Signup = () => {
                   <input
                     ref={password}
                     onBlur={() => passwordOnBlur(password, passwordInputDiv)}
-                    onInput={() => enableButtonOnInput(email, password, button)}
+                    onInput={() =>
+                      enableButtonOnInput(email, password, dispatch)
+                    }
                     id="password"
                     type="password"
                     name="password"
@@ -49,8 +54,7 @@ const Signup = () => {
             </div>
             <div className="card-action">
               <button
-                ref={button}
-                disabled
+                disabled={buttonState}
                 className="btn waves-effect waves-light blue"
                 onClick={() => registerOnClick(email, password, dispatch)}
               >
@@ -62,17 +66,28 @@ const Signup = () => {
       </div>
     </div>
   );
+
+  function registerOnClick(
+    email: React.RefObject<HTMLInputElement>,
+    password: React.RefObject<HTMLInputElement>,
+    dispatch: Dispatch
+  ) {
+    if (email.current && password.current) {
+      dispatch(registerUser(email.current.value, password.current.value));
+      if (error.message !== '') alert(error.message);
+    }
+  }
 };
 
 function enableButtonOnInput(
   email: React.RefObject<HTMLInputElement>,
   password: React.RefObject<HTMLInputElement>,
-  button: React.RefObject<HTMLButtonElement>
+  dispatch: Dispatch
 ) {
-  if (email.current && password.current && button.current) {
+  if (email.current && password.current) {
     if (validate(email.current.value, password.current.value))
-      return (button.current.disabled = false);
-    return (button.current.disabled = true);
+      return dispatch(enableButton());
+    return dispatch(disableButton());
   }
 }
 
@@ -92,19 +107,6 @@ function passwordOnBlur(
       ' bad-input',
       ''
     );
-  }
-}
-
-function registerOnClick(
-  email: React.RefObject<HTMLInputElement>,
-  password: React.RefObject<HTMLInputElement>,
-  dispatch: Dispatch
-) {
-  if (email.current && password.current) {
-    if (!validate(email.current.value, password.current.value))
-      return alert('Incorrect data');
-
-    dispatch(registerUser(email.current.value, password.current.value));
   }
 }
 

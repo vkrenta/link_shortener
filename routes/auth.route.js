@@ -5,6 +5,7 @@ const { throwError } = require('../helpers/errors');
 
 router.post('/register', async (req, res, next) => {
   try {
+    // throw new Error('HahahA YOU ARE LOX');
     const { body } = req;
     const { user, password } = body;
 
