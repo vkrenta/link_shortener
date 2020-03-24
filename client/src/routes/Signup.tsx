@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Dispatch } from 'redux';
 import { registerUser, enableButton, disableButton } from '../actions';
+import M from 'materialize-css';
 
 const Signup = () => {
   const email = useRef<HTMLInputElement>(null);
@@ -74,7 +75,6 @@ const Signup = () => {
   ) {
     if (email.current && password.current) {
       dispatch(registerUser(email.current.value, password.current.value));
-      if (error.message !== '') alert(error.message);
     }
   }
 };

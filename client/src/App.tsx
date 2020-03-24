@@ -8,6 +8,7 @@ import UseRoutes from './routes';
 import createSagaMiddleWare from 'redux-saga';
 import { watchRegister } from './sagas/register.sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import watchError from './sagas/errorToast.sagas';
 
 const App = () => {
   const sagaMiddleWare = createSagaMiddleWare();
@@ -19,6 +20,7 @@ const App = () => {
   console.log(store.getState());
 
   sagaMiddleWare.run(watchRegister);
+  sagaMiddleWare.run(watchError);
   return (
     <Provider store={store}>
       <div>
