@@ -1,8 +1,4 @@
-import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Dispatch } from 'redux';
-import { registerUser, enableButton, disableButton } from '../../actions';
-import { passwordOnBlur, enableButtonOnInput } from '../../validators';
+import React from 'react';
 
 type preloaderProps = {
   inProcess: boolean;

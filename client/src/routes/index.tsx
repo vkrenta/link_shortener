@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LoggedOut from './loggedOut';
 import LoggedIn from './loggedIn';
+import { Redirect, Switch } from 'react-router-dom';
+import { clearError } from '../actions';
 
 const useRoutes = () => {
-  console.log('Triggered');
   const { authenticated }: { authenticated: boolean } = useSelector(
     (state: any) => state.currentUser
   );

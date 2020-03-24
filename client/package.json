@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +44,7 @@
   },
   "proxy": "http://localhost:8000",
   "devDependencies": {
+    "eslint": "^6.8.0",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8"
   }

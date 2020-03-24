@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { registerUser, enableButton, disableButton } from '../actions';
+import { registerUser } from '../actions';
 import { passwordOnBlur, enableButtonOnInput } from '../validators';
 import ButtonOrPreloader from './components/buttonOrPreloader';
+import { Redirect } from 'react-router-dom';
 
 const Signup = () => {
   const email = useRef<HTMLInputElement>(null);
@@ -13,8 +14,13 @@ const Signup = () => {
   const buttonState: boolean = useSelector(
     (state: any) => state.isButtonDisabled
   );
-  const error = useSelector((state: any) => state.error);
   const inProcess: boolean = useSelector((state: any) => state.inProcess);
+
+  const error = useSelector((state: any) => state.error);
+
+  if (error?.code === 500) {
+    return <Redirect to="/internal" />;
+  }
 
   return (
     <div>

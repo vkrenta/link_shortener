@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import Nomatch from './Nomatch';
+import Internal from './Internal';
 
 const LoggedOut = () => {
   return (
@@ -25,14 +26,17 @@ const LoggedOut = () => {
       {/*------------------Main content-------------*/}
       <div className="container">
         <Switch>
-          <Route path="/login">
+          <Route exact path="/login">
             <Login />
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <Signup />
           </Route>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route exact path="/internal">
+            <Internal />
           </Route>
           <Route path="*">
             <Nomatch />
