@@ -66,6 +66,7 @@ const Signup = () => {
             </div>
             <div className="card-action">
               <ButtonOrPreloader
+                buttonName="Sign Up"
                 inProcess={inProcess}
                 buttonState={buttonState}
                 onClick={() => registerOnClick(email, password, dispatch)}

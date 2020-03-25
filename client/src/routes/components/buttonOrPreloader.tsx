@@ -1,12 +1,14 @@
 import React from 'react';
 
 type preloaderProps = {
+  buttonName: string;
   inProcess: boolean;
   buttonState: boolean;
   onClick: any;
 };
 
 const ButtonOrPreloader: React.FC<preloaderProps> = ({
+  buttonName,
   inProcess,
   buttonState,
   onClick,
@@ -33,7 +35,7 @@ const ButtonOrPreloader: React.FC<preloaderProps> = ({
       className="btn waves-effect waves-light blue"
       onClick={() => onClick()}
     >
-      Sign Up
+      {buttonName}
     </button>
   );
 };

@@ -18,7 +18,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.get('/login', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { body } = req;
     const { user, password } = body;

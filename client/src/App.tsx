@@ -9,6 +9,7 @@ import createSagaMiddleWare from 'redux-saga';
 import { watchRegister } from './sagas/register.sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import watchError from './sagas/errorToast.sagas';
+import watchLogin from './sagas/login.sagas';
 
 const App = () => {
   const sagaMiddleWare = createSagaMiddleWare();
@@ -21,6 +22,7 @@ const App = () => {
 
   sagaMiddleWare.run(watchRegister);
   sagaMiddleWare.run(watchError);
+  sagaMiddleWare.run(watchLogin);
   return (
     <Provider store={store}>
       <div>

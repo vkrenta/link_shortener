@@ -4,11 +4,19 @@ export interface Action {
 }
 
 export const REGISTER_USER = 'REGISTER_USER';
+export const LOGIN_USER = 'LOGIN_USER';
 export const SET_USER = 'SET_USER';
 
 export const registerUser = (user: string, password: string): Action => {
   return {
     type: REGISTER_USER,
+    payload: { user, password },
+  };
+};
+
+export const loginUser = (user: string, password: string): Action => {
+  return {
+    type: LOGIN_USER,
     payload: { user, password },
   };
 };

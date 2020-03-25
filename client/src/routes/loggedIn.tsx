@@ -26,7 +26,7 @@ const LoggedIn = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/signup">
+        <Route path="*">
           <Redirect to="/" />
         </Route>
       </Switch>
