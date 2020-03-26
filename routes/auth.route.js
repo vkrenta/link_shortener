@@ -3,22 +3,24 @@ const router = Router();
 const { createUser, findUser } = require('../helpers/mongo');
 const { throwError } = require('../helpers/errors');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.post('/register', async (req, res, next) => {
   try {
     // throw new Error('HahahA YOU ARE LOX');
     const { body } = req;
-    const { user, password } = body;
+    const { email, userName, password } = body;
 
-    if (!(user && password)) throwError(6000);
+    if (!(userName && password && email)) throwError(6000);
 
-    const hashPassword = bcrypt.hashSync(password, 10);
+    const hashPassword = bcrypt.hashSync(password, Number(process.env.SALT));
 
     await createUser({
-      user,
+      email,
       password: hashPassword,
+      userName,
     });
-    res.send({ user });
+    res.send({ message: `User ${userName} has been successfully created` });
   } catch (e) {
     next(e);
   }
@@ -27,14 +29,33 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const { body } = req;
-    const { user, password } = body;
+    const { userName, password, email } = body;
 
-    if (!(user && password)) throwError(6000);
+    if (!((email || userName) && password)) throwError(6000);
 
-    await findUser(user, password);
-    res.send({
-      user,
+    const { hashPassword, userId } = await findUser({
+      userName,
+      email,
     });
+
+    if (!bcrypt.compareSync(password, hashPassword)) throwError(5001);
+
+    const token = jwt.sign({ userId }, process.env.SECRET, { expiresIn: '1m' });
+
+    res.send({
+      token,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/login', async (req, res, next) => {
+  try {
+    const { headers } = req;
+    const token = headers.authorization;
+    console.log(jwt.verify(token, process.env.SECRET));
+    res.send({ message: 'ok' });
   } catch (e) {
     next(e);
   }

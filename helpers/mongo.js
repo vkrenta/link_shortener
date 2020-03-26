@@ -2,22 +2,32 @@ const { users, links, shortCounter } = require('../models');
 const { throwError } = require('./errors');
 const generateLink = require('./link_generator');
 
-const createUser = body =>
+const createUser = ({ email, userName, password }) =>
   users
-    .create(body)
+    .create({ email, userName, password })
     .then(user => console.log('Created user ' + user))
     .catch(() => {
       throwError(5000);
     });
 
-const findUser = (user, password) =>
-  users
-    .findOne({ user, password })
+const findUser = ({ email, userName }) => {
+  if (email)
+    return users
+      .findOne({ email })
+      .exec()
+      .then(data => {
+        if (data) return { hashPassword: data.password, userId: data._id };
+        throwError(5001);
+      });
+
+  return users
+    .findOne({ userName })
     .exec()
     .then(data => {
-      if (data) return { user };
+      if (data) return { hashPassword: data.password, userId: data._id };
       throwError(5001);
     });
+};
 
 const findLink = (user, long) =>
   links

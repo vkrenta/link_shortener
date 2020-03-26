@@ -26,6 +26,7 @@
     "console-stamp": "^3.0.0-rc4.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.9.4",
     "mongoose-findorcreate": "^3.0.0"

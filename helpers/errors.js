@@ -9,10 +9,11 @@ errors
   .set(5002, {
     code: 5002,
     message: 'Link {{long}} with user {{user}} already exists',
-  });
+  })
+  .set(6001, { code: 6001, message: 'Token expired' });
 
 const throwError = errorcode => {
-  const err = {};
+  const err = new Error();
   const { code, message } = errors.get(errorcode);
   err.code = code;
   err.message = message;
@@ -23,7 +24,7 @@ const handler = (e, req, res, next) => {
   if (errors.has(e.code)) res.status(400);
   else res.status(500);
   console.error(e);
-  res.send({ code: e.code, message: e.message });
+  res.send({ code: e.code || 500, message: e.message });
 };
 
 module.exports = { throwError, errors, handler };

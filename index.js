@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const validate = require('./helpers/secret_validation');
 const { handler } = require('./helpers/errors');
 const endMiddleware = require('./helpers/end_middleware');
+const tokenExpired = require('./helpers/tokenExpired');
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +17,7 @@ app.use(endMiddleware);
 
 app.use(validate);
 useRoutes(app);
+app.use(tokenExpired);
 app.use(handler);
 
 const start = async () => {
