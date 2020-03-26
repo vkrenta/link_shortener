@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { createUser, findUser } = require('../helpers/mongo');
 const { throwError } = require('../helpers/errors');
+const bcrypt = require('bcrypt');
 
 router.post('/register', async (req, res, next) => {
   try {
@@ -11,7 +12,12 @@ router.post('/register', async (req, res, next) => {
 
     if (!(user && password)) throwError(6000);
 
-    await createUser(body);
+    const hashPassword = bcrypt.hashSync(password, 10);
+
+    await createUser({
+      user,
+      password: hashPassword,
+    });
     res.send({ user });
   } catch (e) {
     next(e);

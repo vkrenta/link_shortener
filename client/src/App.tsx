@@ -1,9 +1,9 @@
 import React from 'react';
 import 'materialize-css';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
-import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import UseRoutes from './routes';
 import createSagaMiddleWare from 'redux-saga';
 import { watchRegister } from './sagas/register.sagas';
@@ -17,19 +17,19 @@ import { PersistGate } from 'redux-persist/integration/react';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['currentUser'],
+  blacklist: ['currentUser'],
 };
 
 const App = () => {
   const sagaMiddleWare = createSagaMiddleWare();
 
   const persistedReducer = persistReducer(persistConfig, rootReducer);
-  let store = createStore(
+  const store = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(sagaMiddleWare))
   );
 
-  let persistor = persistStore(store);
+  const persistor = persistStore(store);
 
   sagaMiddleWare.run(watchRegister);
   sagaMiddleWare.run(watchError);
