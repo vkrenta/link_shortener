@@ -10,28 +10,41 @@ import { watchRegister } from './sagas/register.sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import watchError from './sagas/errorToast.sagas';
 import watchLogin from './sagas/login.sagas';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { PersistGate } from 'redux-persist/integration/react';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['currentUser'],
+};
 
 const App = () => {
   const sagaMiddleWare = createSagaMiddleWare();
+
+  const persistedReducer = persistReducer(persistConfig, rootReducer);
   let store = createStore(
-    rootReducer,
+    persistedReducer,
     composeWithDevTools(applyMiddleware(sagaMiddleWare))
   );
-  //const user = useSelector((state: any) => state.currentUser);
-  console.log(store.getState());
+
+  let persistor = persistStore(store);
 
   sagaMiddleWare.run(watchRegister);
   sagaMiddleWare.run(watchError);
   sagaMiddleWare.run(watchLogin);
   return (
     <Provider store={store}>
-      <div>
-        <BrowserRouter>
-          <div>
-            <UseRoutes />
-          </div>
-        </BrowserRouter>
-      </div>
+      <PersistGate loading={null} persistor={persistor}>
+        <div>
+          <BrowserRouter>
+            <div>
+              <UseRoutes />
+            </div>
+          </BrowserRouter>
+        </div>
+      </PersistGate>
     </Provider>
   );
 };

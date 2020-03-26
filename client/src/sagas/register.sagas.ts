@@ -7,6 +7,7 @@ import {
   customError,
   initPreloader,
   endPreloader,
+  disableButton,
 } from '../actions';
 
 function* workerRegister(action: any) {
@@ -20,6 +21,7 @@ function* workerRegister(action: any) {
 
     yield put(setUser(account.user));
     yield put(endPreloader());
+    yield put(disableButton());
   } catch (e) {
     console.log(e);
     yield put(endPreloader());
