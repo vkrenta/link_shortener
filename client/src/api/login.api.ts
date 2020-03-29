@@ -1,29 +1,23 @@
-const login = async (user: String, password: String) => {
+import { validateEmail } from '../validators';
+
+const login = async (userNameOrEmail: string, password: string) => {
+  let param: 'userName' | 'email' = 'userName';
+  if (validateEmail(userNameOrEmail)) param = 'email';
+
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      secret: 'qwerty12345',
-      user,
-      password,
-    }),
+    body: `{"${param}":"${userNameOrEmail}","password":"${password}"}`,
   });
 
   const result = await response.json();
-  if (!response.ok && response.status !== 500) {
+  if (!response.ok) {
     const error = new Error();
     error.message = JSON.stringify({
       code: result.code,
       message: result.message,
-    });
-    throw error;
-  } else if (response.status === 500) {
-    const error = new Error();
-    error.message = JSON.stringify({
-      code: 500,
-      message: 'Internal server error',
     });
     throw error;
   }

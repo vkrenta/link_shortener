@@ -1,14 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LoggedOut from './loggedOut';
 import LoggedIn from './loggedIn';
+import { authenticate } from '../actions';
 
 const useRoutes = () => {
+  const dispatch = useDispatch();
   const { authenticated }: { authenticated: boolean } = useSelector(
     (state: any) => state.currentUser
   );
 
-  if (!authenticated) return <LoggedOut />;
+  const token: string | null = useSelector((state: any) => state.token);
+  if (token) dispatch(authenticate(token));
+
+  if (!token) return <LoggedOut />;
 
   return <LoggedIn />;
 };

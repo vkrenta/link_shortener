@@ -1,13 +1,13 @@
 module.exports = {
   env: {
-    browser: true,
     es6: true,
+    node: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'prettier',
+    'plugin:prettier',
   ],
   globals: {
     Atomics: 'readonly',
@@ -23,8 +23,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    indent: ['error', 2],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
+    indent: ['warn', 2],
+    quotes: ['warn', 'single'],
+    semi: ['warn', 'always'],
   },
 };

@@ -8,18 +8,20 @@ import {
   initPreloader,
   endPreloader,
   disableButton,
+  setToken,
 } from '../actions';
 
 function* workerLogin(action: any) {
   try {
     yield put(initPreloader());
-    const account = yield call(
+    const { token }: { token: string } = yield call(
       login,
-      action.payload.user,
+      action.payload.userNameOrEmail,
       action.payload.password
     );
-
-    yield put(setUser(account.user));
+    console.log(token);
+    yield put(setToken(token));
+    // yield put(setUser(account.user));
     yield put(endPreloader());
     yield put(disableButton());
   } catch (e) {

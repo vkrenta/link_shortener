@@ -22,10 +22,13 @@ export const registerUser = ({
   };
 };
 
-export const loginUser = (user: string, password: string): Action => {
+export const loginUser = (
+  userNameOrEmail: string,
+  password: string
+): Action => {
   return {
     type: LOGIN_USER,
-    payload: { user, password },
+    payload: { userNameOrEmail, password },
   };
 };
 
@@ -90,4 +93,20 @@ export const sendAlert = (message: string): Action => ({
   payload: {
     message,
   },
+});
+
+export const SET_TOKEN = 'SET_TOKEN';
+export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+
+export const setToken = (token: string): Action => ({
+  type: SET_TOKEN,
+  payload: { token },
+});
+export const removeToken = (): Action => ({ type: REMOVE_TOKEN });
+
+export const AUTHENTICATE = 'AUTHENTICATE';
+
+export const authenticate = (token: string): Action => ({
+  type: AUTHENTICATE,
+  payload: { token },
 });

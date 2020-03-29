@@ -2,7 +2,6 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import register from '../api/register.api';
 import {
   REGISTER_USER,
-  setUser,
   internalError,
   customError,
   initPreloader,

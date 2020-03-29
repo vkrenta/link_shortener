@@ -9,7 +9,9 @@ const Home: React.FC = () => {
   }: { user: string; authenticated: boolean } = useSelector(
     (state: any) => state.currentUser
   );
-  if (!authenticated)
+
+  const token: string = useSelector((state: any) => state.token);
+  if (!token)
     return (
       <>
         <div className="row">
