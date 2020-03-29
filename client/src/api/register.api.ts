@@ -1,29 +1,30 @@
-const authenticate = async (user: String, password: String) => {
+const register = async ({
+  email,
+  userName,
+  password,
+}: {
+  email: string;
+  userName: string;
+  password: string;
+}) => {
   const response = await fetch('/api/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      secret: 'qwerty12345',
-      user,
+      userName,
+      email,
       password,
     }),
   });
 
   const result = await response.json();
-  if (!response.ok && response.status !== 500) {
+  if (!response.ok) {
     const error = new Error();
     error.message = JSON.stringify({
       code: result.code,
       message: result.message,
-    });
-    throw error;
-  } else if (response.status === 500) {
-    const error = new Error();
-    error.message = JSON.stringify({
-      code: 500,
-      message: 'Internal server error',
     });
     throw error;
   }
@@ -31,4 +32,4 @@ const authenticate = async (user: String, password: String) => {
   return result;
 };
 
-export default authenticate;
+export default register;

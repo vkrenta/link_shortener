@@ -2,12 +2,18 @@ import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { loginUser } from '../actions';
-import { passwordOnBlur, enableButtonOnInput } from '../validators';
+import {
+  enableButtonOnInput,
+  inputOnBlur,
+  validatePassword,
+  validateUserName,
+  validateEmail,
+} from '../validators';
 import ButtonOrPreloader from './components/buttonOrPreloader';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {
-  const email = useRef<HTMLInputElement>(null);
+  const userName = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const passwordInputDiv = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
@@ -32,14 +38,12 @@ const Login = () => {
               <div>
                 <div className="input-field">
                   <input
-                    ref={email}
+                    ref={userName}
                     id="email"
                     type="email"
                     name="user"
                     className="validate"
-                    onInput={() =>
-                      enableButtonOnInput(email, password, dispatch)
-                    }
+                    onInput={() => onInput()}
                   />
                   <label className="active" htmlFor="email">
                     Email
@@ -49,10 +53,8 @@ const Login = () => {
                 <div className="input-field" ref={passwordInputDiv}>
                   <input
                     ref={password}
-                    onBlur={() => passwordOnBlur(password, passwordInputDiv)}
-                    onInput={() =>
-                      enableButtonOnInput(email, password, dispatch)
-                    }
+                    onBlur={() => inputOnBlur(password, validatePassword)}
+                    onInput={() => onInput()}
                     id="password"
                     type="password"
                     name="password"
@@ -69,7 +71,7 @@ const Login = () => {
                 buttonName="Log In"
                 inProcess={inProcess}
                 buttonState={buttonState}
-                onClick={() => loginOnClick(email, password, dispatch)}
+                onClick={() => loginOnClick(userName, password, dispatch)}
               />
             </div>
           </div>
@@ -77,6 +79,20 @@ const Login = () => {
       </div>
     </div>
   );
+
+  function onInput() {
+    enableButtonOnInput(
+      dispatch,
+      {
+        validator: validatePassword,
+        value: password.current?.value!,
+      },
+      {
+        validator: validateUserName,
+        value: userName.current?.value!,
+      }
+    );
+  }
 };
 
 function loginOnClick(

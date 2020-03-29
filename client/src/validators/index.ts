@@ -3,40 +3,78 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Dispatch } from 'redux';
 import { registerUser, enableButton, disableButton } from '../actions';
 
+type Validator = {
+  validator: Function;
+  value: string;
+};
+
 export function enableButtonOnInput(
-  email: React.RefObject<HTMLInputElement>,
-  password: React.RefObject<HTMLInputElement>,
-  dispatch: Dispatch
+  dispatch: Function,
+  ...validators: Validator[]
 ) {
-  if (email.current && password.current) {
-    if (validate(email.current.value, password.current.value))
-      return dispatch(enableButton());
-    return dispatch(disableButton());
-  }
+  if (validate(...validators)) return dispatch(enableButton());
+  return dispatch(disableButton());
 }
+// export function enableButtonOnInput(
+//   email: React.RefObject<HTMLInputElement>,
+//   password: React.RefObject<HTMLInputElement>,
+//   userName: React.RefObject<HTMLInputElement>,
+//   dispatch: Dispatch
+// ) {
+//   if (email.current && password.current && userName.current) {
+//     if (
+//       validate(
+//         { value: email.current.value, validator: validateEmail },
+//         { value: password.current.value, validator: validatePassword },
+//         { value: userName.current.value, validator: validateUserName }
+//       )
+//     )
+//       return dispatch(enableButton());
+//     return dispatch(disableButton());
+//   }
+// }
 
-export function passwordOnBlur(
-  password: React.RefObject<HTMLInputElement>,
-  passwordInputDiv: React.RefObject<HTMLDivElement>
+// export function enableButtonOnInput(
+//   userName: React.RefObject<HTMLInputElement>,
+//   password: React.RefObject<HTMLInputElement>,
+//   dispatch: Dispatch
+// ) {
+//   if (password.current && userName.current) {
+//     if (
+//       validate(
+//         { value: password.current.value, validator: validatePassword },
+//         { value: userName.current.value, validator: validateUserName }
+//       )
+//     )
+//       return dispatch(enableButton());
+//     return dispatch(disableButton());
+//   }
+// }
+
+export function inputOnBlur(
+  input: React.RefObject<HTMLInputElement>,
+  validate: Function
 ) {
-  if (password.current && passwordInputDiv.current) {
+  if (input.current) {
     if (
-      !validatePassword(password.current.value) &&
-      password.current.value !== '' &&
-      !passwordInputDiv.current.className.endsWith(' bad-input')
+      !validate(input.current.value) &&
+      input.current.value !== '' &&
+      !input.current.className.endsWith(' bad-input')
     ) {
-      return (passwordInputDiv.current.className += ' bad-input');
+      return (input.current.className += ' bad-input');
     }
-    passwordInputDiv.current.className = passwordInputDiv.current.className.replace(
-      ' bad-input',
-      ''
-    );
+    input.current.className = input.current.className.replace(' bad-input', '');
   }
 }
 
-export function validate(email: string, password: string) {
-  if (!validateEmail(email)) return false;
-  if (!validatePassword(password)) return false;
+export function validate(...params: Validator[]) {
+  const result = params.map((param) => param.validator(param.value));
+  if (result.includes(false)) return false;
+  return true;
+}
+
+export function validateUserName(userName: string) {
+  if (userName.includes(' ') || userName.length < 1) return false;
   return true;
 }
 

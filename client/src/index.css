@@ -24,12 +24,12 @@
   width: 100%;
 }
 
-.bad-input > input {
+.bad-input {
   border-bottom-color: rgb(244, 67, 54) !important;
   border-width: 2px !important;
   box-shadow: rgb(244, 67, 54) 0px 1px 0px 0px !important;
 }
 
-.bad-input > input:focus + label {
+.bad-input:focus + label {
   color: rgb(244, 67, 54) !important;
 }

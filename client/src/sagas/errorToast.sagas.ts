@@ -1,9 +1,9 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { CUSTOM_ERROR, clearError } from '../actions';
+import { CUSTOM_ERROR, clearError, sendAlert } from '../actions';
 import M from 'materialize-css';
 
 function* worker(action: any) {
-  yield call(M.toast, { html: action.payload.message });
+  yield put(sendAlert(action.payload.message));
   yield put(clearError());
 }
 

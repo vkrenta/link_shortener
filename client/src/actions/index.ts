@@ -7,10 +7,18 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_USER = 'SET_USER';
 
-export const registerUser = (user: string, password: string): Action => {
+export const registerUser = ({
+  email,
+  userName,
+  password,
+}: {
+  email: string;
+  userName: string;
+  password: string;
+}): Action => {
   return {
     type: REGISTER_USER,
-    payload: { user, password },
+    payload: { email, userName, password },
   };
 };
 
@@ -75,3 +83,11 @@ export const END_PRELOADER = 'END_PRELOADER';
 export const initPreloader = (): Action => ({ type: INIT_PRELOADER });
 
 export const endPreloader = (): Action => ({ type: END_PRELOADER });
+
+export const SEND_ALERT = 'SEND_ALERT';
+export const sendAlert = (message: string): Action => ({
+  type: SEND_ALERT,
+  payload: {
+    message,
+  },
+});

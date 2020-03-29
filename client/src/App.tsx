@@ -13,11 +13,12 @@ import watchLogin from './sagas/login.sagas';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { PersistGate } from 'redux-persist/integration/react';
+import { watchAlert } from './sagas/alert.sagas';
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['currentUser'],
+  whitelist: [],
 };
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
   sagaMiddleWare.run(watchRegister);
   sagaMiddleWare.run(watchError);
   sagaMiddleWare.run(watchLogin);
+  sagaMiddleWare.run(watchAlert);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

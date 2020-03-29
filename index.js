@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(endMiddleware);
 
 app.use(validate);
-useRoutes(app);
 app.use(tokenExpired);
+useRoutes(app);
 app.use(handler);
 
 const start = async () => {

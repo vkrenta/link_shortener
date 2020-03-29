@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import authenticate from '../api/auth.api';
+import register from '../api/register.api';
 import {
   REGISTER_USER,
   setUser,
@@ -8,18 +8,18 @@ import {
   initPreloader,
   endPreloader,
   disableButton,
+  sendAlert,
 } from '../actions';
-
 function* workerRegister(action: any) {
   try {
     yield put(initPreloader());
-    const account = yield call(
-      authenticate,
-      action.payload.user,
-      action.payload.password
-    );
+    const { message } = yield call(register, {
+      email: action.payload.email,
+      userName: action.payload.userName,
+      password: action.payload.password,
+    });
 
-    yield put(setUser(account.user));
+    yield put(sendAlert(message));
     yield put(endPreloader());
     yield put(disableButton());
   } catch (e) {

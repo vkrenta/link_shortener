@@ -6,7 +6,8 @@ const createUser = ({ email, userName, password }) =>
   users
     .create({ email, userName, password })
     .then(user => console.log('Created user ' + user))
-    .catch(() => {
+    .catch(e => {
+      console.log(e);
       throwError(5000);
     });
 

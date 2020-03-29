@@ -1,14 +1,23 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
+
 import { registerUser } from '../actions';
-import { passwordOnBlur, enableButtonOnInput } from '../validators';
+import {
+  enableButtonOnInput,
+  inputOnBlur,
+  validatePassword,
+  validateUserName,
+  validateEmail,
+  validate,
+} from '../validators';
 import ButtonOrPreloader from './components/buttonOrPreloader';
 import { Redirect } from 'react-router-dom';
 
 const Signup = () => {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
+  const rePassword = useRef<HTMLInputElement>(null);
+  const userName = useRef<HTMLInputElement>(null);
   const passwordInputDiv = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const buttonState: boolean = useSelector(
@@ -29,6 +38,23 @@ const Signup = () => {
           <div className="card">
             <div className="card-content">
               <span className="card-title">Sign up</span>
+              <div className="input-field" ref={passwordInputDiv}>
+                <input
+                  ref={userName}
+                  onBlur={() => {
+                    inputOnBlur(userName, validateUserName);
+                  }}
+                  onInput={() => onInput()}
+                  id="userName"
+                  type="text"
+                  name="userName"
+                  className="validate"
+                />
+                <label className="active" htmlFor="userName">
+                  Username
+                </label>
+              </div>
+
               <div>
                 <div className="input-field">
                   <input
@@ -37,22 +63,18 @@ const Signup = () => {
                     type="email"
                     name="user"
                     className="validate"
-                    onInput={() =>
-                      enableButtonOnInput(email, password, dispatch)
-                    }
+                    onInput={() => onInput()}
                   />
                   <label className="active" htmlFor="email">
                     Email
                   </label>
                 </div>
 
-                <div className="input-field" ref={passwordInputDiv}>
+                <div className="input-field">
                   <input
                     ref={password}
-                    onBlur={() => passwordOnBlur(password, passwordInputDiv)}
-                    onInput={() =>
-                      enableButtonOnInput(email, password, dispatch)
-                    }
+                    onBlur={() => inputOnBlur(password, validatePassword)}
+                    onInput={() => onInput()}
                     id="password"
                     type="password"
                     name="password"
@@ -62,6 +84,21 @@ const Signup = () => {
                     Password
                   </label>
                 </div>
+
+                <div className="input-field">
+                  <input
+                    ref={rePassword}
+                    onBlur={() => inputOnBlur(rePassword, validateRePassword)}
+                    onInput={() => onInput()}
+                    id="rePassword"
+                    type="password"
+                    name="rePassword"
+                    className="validate"
+                  />
+                  <label className="active" htmlFor="rePassword">
+                    Reenter Password
+                  </label>
+                </div>
               </div>
             </div>
             <div className="card-action">
@@ -69,7 +106,9 @@ const Signup = () => {
                 buttonName="Sign Up"
                 inProcess={inProcess}
                 buttonState={buttonState}
-                onClick={() => registerOnClick(email, password, dispatch)}
+                onClick={() =>
+                  registerOnClick(email, password, userName, dispatch)
+                }
               />
             </div>
           </div>
@@ -77,16 +116,46 @@ const Signup = () => {
       </div>
     </div>
   );
+
+  function onInput() {
+    enableButtonOnInput(
+      dispatch,
+      {
+        validator: validatePassword,
+        value: password.current?.value!,
+      },
+      {
+        validator: validateUserName,
+        value: userName.current?.value!,
+      },
+      { validator: validateEmail, value: email.current?.value! },
+      {
+        validator: validateRePassword,
+        value: rePassword.current?.value!,
+      }
+    );
+  }
+
+  function validateRePassword(rePassword: string) {
+    if (!validatePassword(rePassword)) return false;
+    if (rePassword !== password.current?.value) return false;
+    return true;
+  }
 };
 
 function registerOnClick(
   email: React.RefObject<HTMLInputElement>,
   password: React.RefObject<HTMLInputElement>,
-  dispatch: Dispatch
+  userName: React.RefObject<HTMLInputElement>,
+  dispatch: Function
 ) {
-  if (email.current && password.current) {
-    dispatch(registerUser(email.current.value, password.current.value));
-  }
+  dispatch(
+    registerUser({
+      email: email.current?.value!,
+      userName: userName.current?.value!,
+      password: password.current?.value!,
+    })
+  );
 }
 
 export default Signup;
