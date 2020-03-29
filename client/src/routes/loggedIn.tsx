@@ -3,6 +3,7 @@ import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Internal from './Internal';
 import Nomatch from './Nomatch';
+import LogOut from './LogOut';
 
 const LoggedIn = () => {
   return (
@@ -45,6 +46,9 @@ const LoggedIn = () => {
           </Route>
           <Route exact path="/signup">
             <Redirect to="/" />
+          </Route>
+          <Route exact path="/logout">
+            <LogOut />
           </Route>
           <Route path="*">
             <Nomatch />
