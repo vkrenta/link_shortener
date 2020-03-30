@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// eslint no-unused-vars
+// eslint-disable-next-line no-unused-vars
 import { Dispatch } from 'redux';
 import { loginUser } from '../actions';
 import {

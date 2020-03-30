@@ -6,9 +6,6 @@ import { authenticate } from '../actions';
 
 const useRoutes = () => {
   const dispatch = useDispatch();
-  const { authenticated }: { authenticated: boolean } = useSelector(
-    (state: any) => state.currentUser
-  );
 
   const token: string | null = useSelector((state: any) => state.token);
   if (token) dispatch(authenticate(token));

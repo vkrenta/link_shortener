@@ -4,6 +4,7 @@ const { createUser, findUser } = require('../helpers/mongo');
 const { throwError } = require('../helpers/errors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authMiddleware = require('../helpers/authMiddleware');
 
 router.post('/register', async (req, res, next) => {
   try {
@@ -33,14 +34,23 @@ router.post('/login', async (req, res, next) => {
 
     if (!((email || userName) && password)) throwError(6000);
 
-    const { hashPassword, userId } = await findUser({
+    const user = await findUser({
       userName,
       email,
     });
 
+    const { hashPassword } = user;
+
     if (!bcrypt.compareSync(password, hashPassword)) throwError(5001);
 
-    const token = jwt.sign({ userId }, process.env.SECRET, { expiresIn: '1m' });
+    const token = jwt.sign(
+      {
+        userId: user.userId,
+        userName: user.userName,
+      },
+      process.env.SECRET,
+      { expiresIn: '1m' }
+    );
 
     res.send({
       token,
@@ -50,12 +60,10 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.get('/login', async (req, res, next) => {
+router.get('/login', authMiddleware, async (req, res, next) => {
   try {
-    const { headers } = req;
-    const token = headers.authorization;
-    console.log(jwt.verify(token, process.env.SECRET));
-    res.send({ message: 'ok' });
+    const { user } = req;
+    res.send(user);
   } catch (e) {
     next(e);
   }

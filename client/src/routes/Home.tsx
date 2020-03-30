@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import ButtonOrPreloader from './components/buttonOrPreloader';
 
 const Home: React.FC = () => {
-  const {
-    user,
-    authenticated,
-  }: { user: string; authenticated: boolean } = useSelector(
-    (state: any) => state.currentUser
-  );
+  const error = useSelector((state: any) => state.error);
+  const longUrl = useRef<HTMLInputElement>(null);
 
   const token: string = useSelector((state: any) => state.token);
+
+  if (error?.code === 500) {
+    return <Redirect to="/internal" />;
+  }
+
   if (!token)
     return (
       <>
@@ -47,7 +49,28 @@ const Home: React.FC = () => {
       User is authenticated
     */
 
-  return <h1>Hello, {user}</h1>;
+  return (
+    <>
+      <div className="row">
+        <div className="col s6 offset-s3">
+          <div className="card">
+            <div className="card-content">
+              <span className="card-title">Put your link here</span>
+              <div className="input-field m5">
+                <input ref={longUrl} type="url" className="validate"></input>
+              </div>
+              <ButtonOrPreloader
+                buttonName="Create link"
+                inProcess={false}
+                buttonState={false}
+                onClick={() => alert(longUrl.current?.value)}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Home;

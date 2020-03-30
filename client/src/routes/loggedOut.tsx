@@ -9,7 +9,7 @@ import Internal from './Internal';
 const LoggedOut = () => {
   return (
     <>
-      {/*-----------Navigation -------------- */}
+      {/* -----------Navigation -------------- */}
       <nav>
         <div className="nav-wrapper blue darken-2">
           <Link to="/">Logo</Link>
@@ -23,7 +23,7 @@ const LoggedOut = () => {
           </ul>
         </div>
       </nav>
-      {/*------------------Main content-------------*/}
+      {/* ------------------Main content------------- */}
       <div className="container">
         <Switch>
           <Route exact path="/login">

@@ -17,7 +17,14 @@ const findUser = ({ email, userName }) => {
       .findOne({ email })
       .exec()
       .then(data => {
-        if (data) return { hashPassword: data.password, userId: data._id };
+        if (data)
+          return {
+            hashPassword: data.password,
+            userId: data._id,
+            userName: data.userName,
+            email: data.email,
+            dateCreated: data.dateCreated,
+          };
         throwError(5001);
       });
 
@@ -25,7 +32,14 @@ const findUser = ({ email, userName }) => {
     .findOne({ userName })
     .exec()
     .then(data => {
-      if (data) return { hashPassword: data.password, userId: data._id };
+      if (data)
+        return {
+          hashPassword: data.password,
+          userId: data._id,
+          userName: data.userName,
+          email: data.email,
+          dateCreated: data.dateCreated,
+        };
       throwError(5001);
     });
 };

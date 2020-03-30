@@ -1,15 +1,24 @@
-import { Action, SET_USER } from '../actions';
-interface IUser {
-  user: string;
-  authenticated: boolean;
-}
+// eslint-disable-next-line no-unused-vars
+import { Action, SET_USER, REMOVE_USER } from '../actions';
+
 const currentUser = (
-  state: IUser = { user: '', authenticated: false },
+  state: { userId: string | null; userName: string | null } = {
+    userId: null,
+    userName: null,
+  },
   action: Action
-): IUser => {
+): { userId: string | null; userName: string | null } => {
   switch (action.type) {
     case SET_USER:
-      return { user: action.payload.user, authenticated: true };
+      return {
+        userId: action.payload.userId,
+        userName: action.payload.userName,
+      };
+    case REMOVE_USER:
+      return {
+        userId: null,
+        userName: null,
+      };
     default:
       return state;
   }

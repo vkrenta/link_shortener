@@ -4,11 +4,20 @@ import Home from './Home';
 import Internal from './Internal';
 import Nomatch from './Nomatch';
 import LogOut from './LogOut';
+import { useDispatch } from 'react-redux';
+import { removeToken } from '../actions';
 
 const LoggedIn = () => {
+  const dispatch = useDispatch();
+
+  const logOutHandler = (e: React.MouseEvent) => {
+    e.preventDefault();
+    dispatch(removeToken());
+  };
+
   return (
     <>
-      {/*-----------Navigation -------------- */}
+      {/* -----------Navigation -------------- */}
       <nav>
         <div className="nav-wrapper blue darken-2">
           <Link to="/">Logo</Link>
@@ -20,13 +29,15 @@ const LoggedIn = () => {
               <Link to="/account">My profile</Link>
             </li>
             <li>
-              <Link to="/logout">Logout</Link>
+              <a href="/" onClick={(e: React.MouseEvent) => logOutHandler(e)}>
+                Logout
+              </a>
             </li>
           </ul>
         </div>
       </nav>
 
-      {/*------------------Main content-------------*/}
+      {/* ------------------Main content------------- */}
       <div className="container">
         <Switch>
           <Route exact path="/">

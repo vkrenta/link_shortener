@@ -5,7 +5,6 @@ export interface Action {
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
-export const SET_USER = 'SET_USER';
 
 export const registerUser = ({
   email,
@@ -32,12 +31,17 @@ export const loginUser = (
   };
 };
 
-export const setUser = (user: string): Action => {
+export const SET_USER = 'SET_USER';
+export const REMOVE_USER = 'REMOVE_USER';
+
+export const setUser = (userId: string, userName: string): Action => {
   return {
     type: SET_USER,
-    payload: { user: user, authenticated: true },
+    payload: { userId, userName },
   };
 };
+
+export const removeUser = (): Action => ({ type: REMOVE_USER });
 
 export const ENABLE_BUTTON = 'ENABLE_BUTTON';
 export const DISABLE_BUTTON = 'DISABLE_BUTTON';

@@ -4,18 +4,28 @@ import {
   internalError,
   customError,
   removeToken,
+  removeUser,
+  setUser,
 } from '../actions';
 import checkToken from '../api/authenticate.api';
 
 function* worker(action: any) {
   try {
-    const result = yield call(checkToken, action.payload.token);
-    console.log(result);
+    const {
+      userName,
+      userId,
+    }: { userName: string; userId: string } = yield call(
+      checkToken,
+      action.payload.token
+    );
+    yield put(setUser(userId, userName));
   } catch (e) {
     const { message, code } = JSON.parse(e.message);
     if (code === 500) yield put(internalError(message));
-    if (code === 6001) yield put(removeToken());
-    else yield put(customError(code, message));
+    if (code === 6001) {
+      yield put(removeToken());
+      yield put(removeUser());
+    } else yield put(customError(code, message));
   }
 }
 

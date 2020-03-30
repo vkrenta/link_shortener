@@ -1,5 +1,5 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { CUSTOM_ERROR, clearError, SEND_ALERT } from '../actions';
+import { call, takeEvery } from 'redux-saga/effects';
+import { SEND_ALERT } from '../actions';
 import M from 'materialize-css';
 
 function* worker(action: any) {
