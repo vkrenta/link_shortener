@@ -8,7 +8,6 @@ import {
   validatePassword,
   validateUserName,
   validateEmail,
-  validate,
 } from '../validators';
 import ButtonOrPreloader from './components/buttonOrPreloader';
 import { Redirect } from 'react-router-dom';

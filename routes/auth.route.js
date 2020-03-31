@@ -62,7 +62,7 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/login', authMiddleware, async (req, res, next) => {
   try {
-    const { user } = req;
+    const { user } = req.body;
     res.send(user);
   } catch (e) {
     next(e);

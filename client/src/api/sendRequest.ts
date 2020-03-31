@@ -2,7 +2,7 @@ const sendRequest = async (
   path: string,
   method: string,
   headers: any,
-  body: any = null
+  body: string | null = null
 ) => {
   const response = await fetch(path, {
     method,

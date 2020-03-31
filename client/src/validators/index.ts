@@ -1,7 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Dispatch } from 'redux';
-import { registerUser, enableButton, disableButton } from '../actions';
+import React from 'react';
+import { enableButton, disableButton } from '../actions';
 
 type Validator = {
   validator: Function;
@@ -15,41 +13,6 @@ export function enableButtonOnInput(
   if (validate(...validators)) return dispatch(enableButton());
   return dispatch(disableButton());
 }
-// export function enableButtonOnInput(
-//   email: React.RefObject<HTMLInputElement>,
-//   password: React.RefObject<HTMLInputElement>,
-//   userName: React.RefObject<HTMLInputElement>,
-//   dispatch: Dispatch
-// ) {
-//   if (email.current && password.current && userName.current) {
-//     if (
-//       validate(
-//         { value: email.current.value, validator: validateEmail },
-//         { value: password.current.value, validator: validatePassword },
-//         { value: userName.current.value, validator: validateUserName }
-//       )
-//     )
-//       return dispatch(enableButton());
-//     return dispatch(disableButton());
-//   }
-// }
-
-// export function enableButtonOnInput(
-//   userName: React.RefObject<HTMLInputElement>,
-//   password: React.RefObject<HTMLInputElement>,
-//   dispatch: Dispatch
-// ) {
-//   if (password.current && userName.current) {
-//     if (
-//       validate(
-//         { value: password.current.value, validator: validatePassword },
-//         { value: userName.current.value, validator: validateUserName }
-//       )
-//     )
-//       return dispatch(enableButton());
-//     return dispatch(disableButton());
-//   }
-// }
 
 export function inputOnBlur(
   input: React.RefObject<HTMLInputElement>,
@@ -90,6 +53,16 @@ export function validateEmail(email: string) {
 
 export function validatePassword(password: string) {
   if (/(?=.*[0-9])(?=.*[a-zа-я])(?=.*[A-ZА-Я]).{8,}/.test(password) === false)
+    return false;
+  return true;
+}
+
+export function validateUrl(url: string) {
+  if (
+    /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gm.test(
+      url
+    ) === false
+  )
     return false;
   return true;
 }

@@ -15,6 +15,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { PersistGate } from 'redux-persist/integration/react';
 import { watchAlert } from './sagas/alert.sagas';
 import { watchToken } from './sagas/authenticate.sagas';
+import watchCurrentLink from './sagas/createLink.sagas';
 
 const persistConfig = {
   key: 'root',
@@ -38,6 +39,7 @@ const App = () => {
   sagaMiddleWare.run(watchLogin);
   sagaMiddleWare.run(watchAlert);
   sagaMiddleWare.run(watchToken);
+  sagaMiddleWare.run(watchCurrentLink);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

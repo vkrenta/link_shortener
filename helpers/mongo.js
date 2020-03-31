@@ -44,9 +44,9 @@ const findUser = ({ email, userName }) => {
     });
 };
 
-const findLink = (user, long) =>
+const findLink = (userId, long) =>
   links
-    .findOne({ user, long })
+    .findOne({ userId, long })
     .exec()
     .then(data => {
       if (data) {
@@ -55,26 +55,23 @@ const findLink = (user, long) =>
       }
     });
 
-const createLink = async (user, long) => {
+const createLink = async (userId, long) => {
   return (
-    (await findLink(user, long)) ||
-    links
-      .create({ user, long, short: await nextShortLink() })
-      .then(async data => {
-        console.log('Created link', data.short);
-        await setShortLink(data.short);
-        return data.short;
-      })
+    (await findLink(userId, long)) ||
+    links.create({ userId, long, short: await nextShortLink() }).then(data => {
+      console.log('Created link', data.short);
+      return data.short;
+    })
   );
-};
-
-const setShortLink = async short => {
-  return shortCounter.updateOne({ short }).exec();
 };
 
 const nextShortLink = async () => {
   const counter = await shortCounter.findOne().exec();
-  if (counter && counter.short) return generateLink(counter.short);
+  if (counter && counter.short) {
+    const newLink = generateLink(counter.short);
+    await shortCounter.updateOne({ short: newLink }).exec();
+    return newLink;
+  }
 
   return (await shortCounter.create({ short: '0' })).short;
 };

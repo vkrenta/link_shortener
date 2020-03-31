@@ -2,12 +2,10 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import login from '../api/login.api';
 import {
   LOGIN_USER,
-  setUser,
   internalError,
   customError,
   initPreloader,
   endPreloader,
-  disableButton,
   setToken,
 } from '../actions';
 
@@ -19,11 +17,8 @@ function* workerLogin(action: any) {
       action.payload.userNameOrEmail,
       action.payload.password
     );
-    console.log(token);
     yield put(setToken(token));
-    // yield put(setUser(account.user));
     yield put(endPreloader());
-    yield put(disableButton());
   } catch (e) {
     console.log(e);
     yield put(endPreloader());

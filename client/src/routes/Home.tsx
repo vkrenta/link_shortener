@@ -1,11 +1,19 @@
 import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import ButtonOrPreloader from './components/buttonOrPreloader';
+import { inputOnBlur, validateUrl, enableButtonOnInput } from '../validators';
+import { createShortLink, disableButton } from '../actions';
 
 const Home: React.FC = () => {
   const error = useSelector((state: any) => state.error);
   const longUrl = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
+  const buttonState: boolean = useSelector(
+    (state: any) => state.isButtonDisabled
+  );
+  const inProcess: boolean = useSelector((state: any) => state.inProcess);
+  dispatch(disableButton());
 
   const token: string = useSelector((state: any) => state.token);
 
@@ -57,13 +65,21 @@ const Home: React.FC = () => {
             <div className="card-content">
               <span className="card-title">Put your link here</span>
               <div className="input-field m5">
-                <input ref={longUrl} type="url" className="validate"></input>
+                <input
+                  ref={longUrl}
+                  onBlur={() => inputOnBlur(longUrl, validateUrl)}
+                  onInput={() => onInput()}
+                  type="url"
+                  className="validate"
+                ></input>
               </div>
               <ButtonOrPreloader
                 buttonName="Create link"
-                inProcess={false}
-                buttonState={false}
-                onClick={() => alert(longUrl.current?.value)}
+                inProcess={inProcess}
+                buttonState={buttonState}
+                onClick={() =>
+                  dispatch(createShortLink(longUrl.current?.value!, token))
+                } // dispatch(createLink(long: string, short: string))
               />
             </div>
           </div>
@@ -71,6 +87,13 @@ const Home: React.FC = () => {
       </div>
     </>
   );
+
+  function onInput() {
+    enableButtonOnInput(dispatch, {
+      value: longUrl.current?.value!,
+      validator: validateUrl,
+    });
+  }
 };
 
 export default Home;
