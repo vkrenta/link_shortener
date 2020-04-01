@@ -1,5 +1,10 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { CREATE_SHORT_LINK, initPreloader, endPreloader } from '../actions';
+import {
+  CREATE_SHORT_LINK,
+  initPreloader,
+  endPreloader,
+  setCurrentLink,
+} from '../actions';
 import errorHandler from './errorHandler';
 import createLink from '../api/createShort.api';
 
@@ -11,7 +16,8 @@ function* worker(action: any) {
       action.payload.long,
       action.payload.token
     );
-    console.log(short);
+    // console.log(short);
+    yield put(setCurrentLink(short));
   } catch (e) {
     yield errorHandler(e);
   } finally {

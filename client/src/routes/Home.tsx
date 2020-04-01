@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import ButtonOrPreloader from './components/buttonOrPreloader';
 import { inputOnBlur, validateUrl, enableButtonOnInput } from '../validators';
-import { createShortLink, disableButton } from '../actions';
+import { createShortLink, disableButton, clearCurrentLink } from '../actions';
+import CopyCurrentLink from './components/copyCurrentLink';
 
 const Home: React.FC = () => {
   const error = useSelector((state: any) => state.error);
@@ -13,7 +14,17 @@ const Home: React.FC = () => {
     (state: any) => state.isButtonDisabled
   );
   const inProcess: boolean = useSelector((state: any) => state.inProcess);
-  dispatch(disableButton());
+
+  useEffect(() => {
+    dispatch(disableButton());
+  }, [dispatch]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearCurrentLink());
+    },
+    [dispatch]
+  );
 
   const token: string = useSelector((state: any) => state.token);
 
@@ -73,6 +84,7 @@ const Home: React.FC = () => {
                   className="validate"
                 ></input>
               </div>
+              <CopyCurrentLink />
               <ButtonOrPreloader
                 buttonName="Create link"
                 inProcess={inProcess}

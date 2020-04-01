@@ -1,13 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import {
-  AUTHENTICATE,
-  internalError,
-  customError,
-  removeToken,
-  removeUser,
-  setUser,
-} from '../actions';
+import { AUTHENTICATE, setUser } from '../actions';
 import checkToken from '../api/authenticate.api';
+import errorHandler from './errorHandler';
 
 function* worker(action: any) {
   try {
@@ -20,12 +14,7 @@ function* worker(action: any) {
     );
     yield put(setUser(userId, userName));
   } catch (e) {
-    const { message, code } = JSON.parse(e.message);
-    if (code === 500) yield put(internalError(message));
-    if (code === 6001) {
-      yield put(removeToken());
-      yield put(removeUser());
-    } else yield put(customError(code, message));
+    yield errorHandler(e);
   }
 }
 

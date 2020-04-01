@@ -117,8 +117,15 @@ export const authenticate = (token: string): Action => ({
 
 export const CREATE_SHORT_LINK = 'CREATE_SHORT_LINK';
 export const CLEAR_CURRENT_LINK = 'CLEAR_CURRENT_LINK';
+export const SET_CURRENT_LINK = 'SET_CURRENT_LINK';
 
 export const createShortLink = (long: string, token: string): Action => ({
   type: CREATE_SHORT_LINK,
   payload: { long, token },
 });
+
+export const setCurrentLink = (short: string): Action => ({
+  type: SET_CURRENT_LINK,
+  payload: { short },
+});
+export const clearCurrentLink = (): Action => ({ type: CLEAR_CURRENT_LINK });

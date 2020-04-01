@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { Dispatch } from 'redux';
@@ -20,7 +20,10 @@ const Login = () => {
     (state: any) => state.isButtonDisabled
   );
   const inProcess: boolean = useSelector((state: any) => state.inProcess);
-  dispatch(disableButton());
+
+  useEffect(() => {
+    dispatch(disableButton());
+  }, [dispatch]);
 
   const error = useSelector((state: any) => state.error);
 

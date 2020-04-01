@@ -2,13 +2,12 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import register from '../api/register.api';
 import {
   REGISTER_USER,
-  internalError,
-  customError,
   initPreloader,
   endPreloader,
   disableButton,
   sendAlert,
 } from '../actions';
+import errorHandler from './errorHandler';
 function* workerRegister(action: any) {
   try {
     yield put(initPreloader());
@@ -19,14 +18,11 @@ function* workerRegister(action: any) {
     });
 
     yield put(sendAlert(message));
-    yield put(endPreloader());
     yield put(disableButton());
   } catch (e) {
-    console.log(e);
+    yield errorHandler(e);
+  } finally {
     yield put(endPreloader());
-    const { message, code } = JSON.parse(e.message);
-    if (code === 500) yield put(internalError(message));
-    else yield put(customError(code, message));
   }
 }
 

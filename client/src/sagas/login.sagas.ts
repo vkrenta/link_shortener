@@ -1,13 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import login from '../api/login.api';
-import {
-  LOGIN_USER,
-  internalError,
-  customError,
-  initPreloader,
-  endPreloader,
-  setToken,
-} from '../actions';
+import { LOGIN_USER, initPreloader, endPreloader, setToken } from '../actions';
+import errorHandler from './errorHandler';
 
 function* workerLogin(action: any) {
   try {
@@ -20,11 +14,7 @@ function* workerLogin(action: any) {
     yield put(setToken(token));
     yield put(endPreloader());
   } catch (e) {
-    console.log(e);
-    yield put(endPreloader());
-    const { message, code } = JSON.parse(e.message);
-    if (code === 500) yield put(internalError(message));
-    else yield put(customError(code, message));
+    yield errorHandler(e);
   }
 }
 
