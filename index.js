@@ -10,6 +10,9 @@ const { handler } = require('./helpers/errors');
 const endMiddleware = require('./helpers/end_middleware');
 const tokenExpired = require('./helpers/tokenExpired');
 
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+app.get('/favicon.ico', (req, res, next) => next());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 

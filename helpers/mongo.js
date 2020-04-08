@@ -76,9 +76,17 @@ const nextShortLink = async () => {
   return (await shortCounter.create({ short: '0' })).short;
 };
 
+const getLink = async short => {
+  const data = await links.findOne({ short }).exec();
+  data.clicks++;
+  await data.save();
+  return data.long;
+};
+
 module.exports = {
   createUser,
   findUser,
   createLink,
   nextShortLink,
+  getLink,
 };
