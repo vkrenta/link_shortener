@@ -9,7 +9,7 @@ import {
   validatePassword,
   validateUserName,
 } from '../validators';
-import ButtonOrPreloader from './components/buttonOrPreloader';
+import ButtonOrPreloader from './components/ButtonOrPreloader';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {

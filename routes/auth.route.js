@@ -49,7 +49,7 @@ router.post('/login', async (req, res, next) => {
         userName: user.userName,
       },
       process.env.SECRET,
-      { expiresIn: '1m' }
+      { expiresIn: '1d' }
     );
 
     res.send({

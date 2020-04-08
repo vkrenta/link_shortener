@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import ButtonOrPreloader from './components/buttonOrPreloader';
+import ButtonOrPreloader from './components/ButtonOrPreloader';
 import { inputOnBlur, validateUrl, enableButtonOnInput } from '../validators';
 import { createShortLink, disableButton, clearCurrentLink } from '../actions';
-import CopyCurrentLink from './components/copyCurrentLink';
+import CopyCurrentLink from './components/CopyCurrentLink';
 
 const Home: React.FC = () => {
   const error = useSelector((state: any) => state.error);
@@ -89,9 +89,9 @@ const Home: React.FC = () => {
                 buttonName="Create link"
                 inProcess={inProcess}
                 buttonState={buttonState}
-                onClick={() =>
-                  dispatch(createShortLink(longUrl.current?.value!, token))
-                } // dispatch(createLink(long: string, short: string))
+                onClick={() => {
+                  dispatch(createShortLink(longUrl.current?.value!, token));
+                }} // dispatch(createLink(long: string, short: string))
               />
             </div>
           </div>

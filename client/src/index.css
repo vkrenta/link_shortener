@@ -33,3 +33,16 @@
 .bad-input:focus + label {
   color: rgb(244, 67, 54) !important;
 }
+
+#copy-link-input {
+  margin: 0;
+}
+
+#copy-link-button {
+  padding: 0;
+}
+
+#copy-link-button > i {
+  margin-left: 10px;
+  margin-right: 10px;
+}
