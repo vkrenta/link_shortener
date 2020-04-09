@@ -1,4 +1,4 @@
-import React, { useRef, FormEvent } from 'react';
+import React, { useRef, FormEvent, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendAlert } from '../../actions';
 
@@ -8,7 +8,7 @@ const CopyCurrentLink: React.FC = () => {
   const highlighted = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
-  if (!currentLink) return <div />;
+  useEffect(copyLinkToClipboard, []);
 
   return (
     <>
@@ -17,7 +17,6 @@ const CopyCurrentLink: React.FC = () => {
           <div className="input-field" id="copy-link-input">
             <input
               ref={highlighted}
-              onFocus={() => copyLinkToClipboard()}
               onChange={() => {}}
               onInput={(event: FormEvent) => {
                 event.preventDefault();
@@ -32,9 +31,7 @@ const CopyCurrentLink: React.FC = () => {
           <button
             className="waves-effect blue btn"
             id="copy-link-button"
-            onClick={() => {
-              highlighted.current?.focus();
-            }}
+            onClick={copyLinkToClipboard}
           >
             <i className="small material-icons">content_copy</i>
           </button>
@@ -44,6 +41,7 @@ const CopyCurrentLink: React.FC = () => {
   );
 
   function copyLinkToClipboard() {
+    highlighted.current?.focus();
     highlighted.current?.setSelectionRange(0, currentLink?.length);
     document.execCommand('copy');
     dispatch(sendAlert('Link copied!'));

@@ -8,6 +8,7 @@ import CopyCurrentLink from './components/CopyCurrentLink';
 
 const Home: React.FC = () => {
   const error = useSelector((state: any) => state.error);
+  const currentLink = useSelector((state: any) => state.currentLink);
   const longUrl = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const buttonState: boolean = useSelector(
@@ -84,7 +85,8 @@ const Home: React.FC = () => {
                   className="validate"
                 ></input>
               </div>
-              <CopyCurrentLink />
+              {currentLink ? <CopyCurrentLink /> : <div />}
+              {/* <CopyCurrentLink /> */}
               <ButtonOrPreloader
                 buttonName="Create link"
                 inProcess={inProcess}
