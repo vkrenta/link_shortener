@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   env: {
     es6: true,
     node: true,
@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     quotes: ['warn', 'single'],
     semi: ['warn', 'always'],
+    'no-var': 'warn',
   },
   settings: {
     react: {

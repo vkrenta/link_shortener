@@ -8,6 +8,8 @@
     }
   ],
   "settings": {
-    "path": "C:\\Users\\Vasyl\\Desktop\\link_shortener\\.vscode\\settings.json"
+    // "files.exclude": {
+    //   "**/client": true
+    // }
   }
 }

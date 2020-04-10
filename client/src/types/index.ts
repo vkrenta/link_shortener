@@ -1,4 +1,5 @@
 export type LinkData = {
+  id: string;
   long: string;
   short: string;
   createdAt: Date;

@@ -88,6 +88,7 @@ const getLinksData = async userId => {
   const sendData = [];
   data.forEach(x => {
     sendData.push({
+      id: x._id,
       long: x.long,
       short: `${process.env.BASE_URL}${x.short}`,
       clicks: x.clicks,
