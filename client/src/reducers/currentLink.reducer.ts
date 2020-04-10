@@ -1,4 +1,5 @@
-import { Action, SET_CURRENT_LINK, CLEAR_CURRENT_LINK } from '../actions';
+import { SET_CURRENT_LINK, CLEAR_CURRENT_LINK } from '../actions';
+import { Action } from '../types';
 
 const currentLink = (state: string | null = null, action: Action) => {
   switch (action.type) {

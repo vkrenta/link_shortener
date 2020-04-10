@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-import { Action, SET_USER, REMOVE_USER } from '../actions';
+import { SET_USER, REMOVE_USER } from '../actions';
+import { Action } from '../types';
 
 const currentUser = (
   state: { userId: string | null; userName: string | null } = {

@@ -5,6 +5,7 @@ import error from './error.reducer';
 import inProcess from './inProcess.reducer';
 import token from './token.reducer';
 import currentLink from './currentLink.reducer';
+import loadedLinks from './loadLinks.reducer';
 
 const rootReducer = combineReducers({
   currentUser,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   inProcess,
   token,
   currentLink,
+  loadedLinks,
 });
 
 export default rootReducer;

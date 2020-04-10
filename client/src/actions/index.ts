@@ -1,7 +1,4 @@
-export interface Action {
-  type: string;
-  payload?: any;
-}
+import { LinkData, Action } from '../types';
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -129,3 +126,15 @@ export const setCurrentLink = (short: string): Action => ({
   payload: { short },
 });
 export const clearCurrentLink = (): Action => ({ type: CLEAR_CURRENT_LINK });
+
+export const LOAD_LINKS = 'LOAD_LINKS';
+export const loadLinks = (token: string): Action => ({
+  type: LOAD_LINKS,
+  payload: { token },
+});
+
+export const SET_LINKS = 'SET_LINKS';
+export const setLinks = (links: [LinkData]): Action => ({
+  type: SET_LINKS,
+  payload: { links },
+});

@@ -86,14 +86,13 @@ const Home: React.FC = () => {
                 ></input>
               </div>
               {currentLink ? <CopyCurrentLink /> : <div />}
-              {/* <CopyCurrentLink /> */}
               <ButtonOrPreloader
                 buttonName="Create link"
                 inProcess={inProcess}
                 buttonState={buttonState}
                 onClick={() => {
                   dispatch(createShortLink(longUrl.current?.value!, token));
-                }} // dispatch(createLink(long: string, short: string))
+                }}
               />
             </div>
           </div>

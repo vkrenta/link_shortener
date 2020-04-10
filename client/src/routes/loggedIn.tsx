@@ -6,6 +6,7 @@ import Nomatch from './Nomatch';
 import LogOut from './LogOut';
 import { useDispatch } from 'react-redux';
 import { removeToken } from '../actions';
+import MyLinks from './MyLinks';
 
 const LoggedIn = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const LoggedIn = () => {
             <Home />
           </Route>
           <Route exact path="/mylinks">
-            <Home />
+            <MyLinks />
           </Route>
           <Route exact path="/account">
             <Home />

@@ -83,10 +83,28 @@ const getLink = async short => {
   return data.long;
 };
 
+const getLinksData = async userId => {
+  const data = await links.find({ userId });
+  const sendData = [];
+  data.forEach(x => {
+    sendData.push({
+      long: x.long,
+      short: `${process.env.BASE_URL}${x.short}`,
+      clicks: x.clicks,
+      createdAt: x.createdAt,
+    });
+
+    x.save();
+  });
+
+  return sendData;
+};
+
 module.exports = {
   createUser,
   findUser,
   createLink,
   nextShortLink,
   getLink,
+  getLinksData,
 };
