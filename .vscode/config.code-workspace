@@ -1,11 +1,13 @@
 {
   "folders": [
-	{
-		"path": "C:\\Users\\Vasyl\\Desktop\\link_shortener\\client"
-	},
-	{
-		"path": "C:\\Users\\Vasyl\\Desktop\\link_shortener"
-	}
-],
-  "settings": {}
+    {
+      "path": "C:\\Users\\Vasyl\\Desktop\\link_shortener\\client"
+    },
+    {
+      "path": "C:\\Users\\Vasyl\\Desktop\\link_shortener"
+    }
+  ],
+  "settings": {
+    "path": "C:\\Users\\Vasyl\\Desktop\\link_shortener\\.vscode\\settings.json"
+  }
 }
