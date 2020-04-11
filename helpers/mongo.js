@@ -11,6 +11,16 @@ const createUser = ({ email, userName, password }) =>
       throwError(5000);
     });
 
+const getUserInfo = async id => {
+  const data = await users.findById(id);
+
+  const { userName, email, dateCreated, links, clicks } = data;
+
+  data.save();
+
+  return { userName, email, dateCreated, links, clicks };
+};
+
 const findUser = ({ email, userName }) => {
   if (email)
     return users
@@ -56,13 +66,15 @@ const findLink = (userId, long) =>
     });
 
 const createLink = async (userId, long) => {
-  return (
-    (await findLink(userId, long)) ||
-    links.create({ userId, long, short: await nextShortLink() }).then(data => {
-      console.log('Created link', data.short);
-      return data.short;
-    })
-  );
+  const founded = await findLink(userId, long);
+  if (founded) return founded;
+  const short = await nextShortLink();
+  const data = await links.create({ userId, long, short });
+  console.log('Created link', data.short);
+  const user = await users.findById(userId).exec();
+  user.links++;
+  user.save();
+  return data.short;
 };
 
 const nextShortLink = async () => {
@@ -78,8 +90,11 @@ const nextShortLink = async () => {
 
 const getLink = async short => {
   const data = await links.findOne({ short }).exec();
+  const user = await users.findById(data.userId).exec();
   data.clicks++;
+  user.clicks++;
   await data.save();
+  await user.save();
   return data.long;
 };
 
@@ -94,8 +109,6 @@ const getLinksData = async userId => {
       clicks: x.clicks,
       createdAt: x.createdAt,
     });
-
-    x.save();
   });
 
   return sendData;
@@ -108,4 +121,5 @@ module.exports = {
   nextShortLink,
   getLink,
   getLinksData,
+  getUserInfo,
 };

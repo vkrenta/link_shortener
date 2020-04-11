@@ -1,4 +1,4 @@
-import { LinkData, Action } from '../types';
+import { LinkData, Action, UserInfo } from '../types';
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -141,3 +141,18 @@ export const setLinks = (links: [LinkData]): Action => ({
 });
 
 export const clearLinks = (): Action => ({ type: CLEAR_LINKS });
+
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const getUserInfo = (token: string): Action => ({
+  type: GET_USER_INFO,
+  payload: { token },
+});
+
+export const SET_USER_INFO = 'SET_USER_INFO';
+export const CLEAR_USER_INFO = 'CLEAR_USER_INFO';
+
+export const setUserInfo = (userInfo: UserInfo): Action => ({
+  type: SET_USER_INFO,
+  payload: { userInfo },
+});
+export const clearUserInfo = (): Action => ({ type: CLEAR_USER_INFO });

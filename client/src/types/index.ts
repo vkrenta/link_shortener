@@ -6,6 +6,14 @@ export type LinkData = {
   clicks: number;
 };
 
+export type UserInfo = {
+  userName: string;
+  email: string;
+  dateCreated: Date;
+  links: number;
+  clicks: number;
+} | null;
+
 export type Action = {
   type: string;
   payload?: any;

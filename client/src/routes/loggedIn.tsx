@@ -7,6 +7,7 @@ import LogOut from './LogOut';
 import { useDispatch } from 'react-redux';
 import { removeToken } from '../actions';
 import MyLinks from './MyLinks';
+import MyProfile from './MyProfile';
 
 const LoggedIn = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const LoggedIn = () => {
             <MyLinks />
           </Route>
           <Route exact path="/account">
-            <Home />
+            <MyProfile />
           </Route>
           <Route exact path="/internal">
             <Internal />
