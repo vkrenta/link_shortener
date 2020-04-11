@@ -66,8 +66,10 @@ const findLink = (userId, long) =>
     });
 
 const createLink = async (userId, long) => {
+  long = long.replace('http://', '').replace('https://', '');
   const founded = await findLink(userId, long);
   if (founded) return founded;
+
   const short = await nextShortLink();
   const data = await links.create({ userId, long, short });
   console.log('Created link', data.short);
@@ -95,7 +97,7 @@ const getLink = async short => {
   user.clicks++;
   await data.save();
   await user.save();
-  return data.long;
+  return `https://${data.long}`;
 };
 
 const getLinksData = async userId => {
@@ -104,7 +106,7 @@ const getLinksData = async userId => {
   data.forEach(x => {
     sendData.push({
       id: x._id,
-      long: x.long,
+      long: `https://${x.long}`,
       short: `${process.env.BASE_URL}${x.short}`,
       clicks: x.clicks,
       createdAt: x.createdAt,

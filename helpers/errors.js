@@ -8,13 +8,14 @@ errors
   .set(5001, { code: 5001, message: 'Invalid user or password' })
   .set(5002, {
     code: 5002,
-    message: 'Link {{long}} with user {{user}} already exists',
+    message: 'Link already exists',
   })
+  .set(5003, { code: 5003, message: 'You cannot short "short" link ' })
   .set(6001, { code: 6001, message: 'Token expired' });
 
-const throwError = errorcode => {
+const throwError = errorCode => {
   const err = new Error();
-  const { code, message } = errors.get(errorcode);
+  const { code, message } = errors.get(errorCode);
   err.code = code;
   err.message = message;
   throw err;
