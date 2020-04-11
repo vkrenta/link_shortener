@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo } from '../actions';
+import { getUserInfo, clearUserInfo } from '../actions';
 import { UserInfo } from '../types';
 import Preloader from './components/Preloader';
 import Moment from 'react-moment';
@@ -14,6 +14,13 @@ const MyProfile: FC = () => {
   useEffect(() => {
     dispatch(getUserInfo(token));
   }, [dispatch, token]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearUserInfo());
+    },
+    [dispatch]
+  );
 
   if (userInfo == null) return <Preloader />;
 

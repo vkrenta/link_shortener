@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { registerUser } from '../actions';
+import { registerUser, disableButton } from '../actions';
 import {
   enableButtonOnInput,
   inputOnBlur,
@@ -18,6 +18,10 @@ const Signup = () => {
   const userName = useRef<HTMLInputElement>(null);
   const passwordInputDiv = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(disableButton());
+  }, [dispatch]);
 
   return (
     <div>
