@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadLinks, clearLinks } from '../actions';
 import { LinkData } from '../types';
 import Preloader from './components/Preloader';
+import Moment from 'react-moment';
 
 const MyLinks: FC = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,9 @@ const MyLinks: FC = () => {
             </div>
             <div className="row">
               <div className="col s3">Date created:</div>
-              <div className="col s9">{link.createdAt}</div>
+              <div className="col s9">
+                <Moment format="DD.MM.YYYY hh:mm:ss">{link.createdAt}</Moment>
+              </div>
             </div>
             <div className="row">
               <div className="col s3">Total clicks:</div>

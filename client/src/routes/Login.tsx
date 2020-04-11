@@ -20,7 +20,7 @@ const Login = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <>
       <div className="row">
         <div className="col s6 offset-s3">
           <div className="card">
@@ -71,7 +71,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 
   function onInput() {
