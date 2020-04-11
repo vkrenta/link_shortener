@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { registerUser } from '../actions';
 import {
@@ -10,7 +10,6 @@ import {
   validateEmail,
 } from '../validators';
 import ButtonOrPreloader from './components/ButtonOrPreloader';
-import { Redirect } from 'react-router-dom';
 
 const Signup = () => {
   const email = useRef<HTMLInputElement>(null);
@@ -19,16 +18,6 @@ const Signup = () => {
   const userName = useRef<HTMLInputElement>(null);
   const passwordInputDiv = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-  const buttonState: boolean = useSelector(
-    (state: any) => state.isButtonDisabled
-  );
-  const inProcess: boolean = useSelector((state: any) => state.inProcess);
-
-  const error = useSelector((state: any) => state.error);
-
-  if (error?.code === 500) {
-    return <Redirect to="/internal" />;
-  }
 
   return (
     <div>
@@ -102,9 +91,7 @@ const Signup = () => {
             </div>
             <div className="card-action">
               <ButtonOrPreloader
-                buttonName="Sign Up"
-                inProcess={inProcess}
-                buttonState={buttonState}
+                buttonText="Sign Up"
                 onClick={() =>
                   registerOnClick(email, password, userName, dispatch)
                 }

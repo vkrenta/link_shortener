@@ -10,6 +10,7 @@ import { Switch, Redirect } from 'react-router-dom';
 
 export default function* errorHandler(e: any) {
   const { message, code } = JSON.parse(e.message);
+
   if (code === 500) {
     yield put(internalError(message));
     yield call(ReturnInternal);

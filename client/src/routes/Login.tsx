@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// eslint-disable-next-line no-unused-vars
+import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { loginUser, disableButton } from '../actions';
 import {
@@ -10,26 +9,15 @@ import {
   validateUserName,
 } from '../validators';
 import ButtonOrPreloader from './components/ButtonOrPreloader';
-import { Redirect } from 'react-router-dom';
 
 const Login = () => {
   const userNameOrEmail = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const buttonState: boolean = useSelector(
-    (state: any) => state.isButtonDisabled
-  );
-  const inProcess: boolean = useSelector((state: any) => state.inProcess);
 
   useEffect(() => {
     dispatch(disableButton());
   }, [dispatch]);
-
-  const error = useSelector((state: any) => state.error);
-
-  if (error?.code === 500) {
-    return <Redirect to="/internal" />;
-  }
 
   return (
     <div>
@@ -74,9 +62,7 @@ const Login = () => {
             </div>
             <div className="card-action">
               <ButtonOrPreloader
-                buttonName="Log In"
-                inProcess={inProcess}
-                buttonState={buttonState}
+                buttonText="Log In"
                 onClick={() =>
                   loginOnClick(userNameOrEmail, password, dispatch)
                 }

@@ -19,7 +19,12 @@ export type Action = {
   payload?: any;
 };
 
-export interface IError {
-  code?: number;
+export type IError = {
+  code: number;
   message: string;
-}
+} | null;
+
+export type preloaderProps = {
+  buttonText: string;
+  onClick: any;
+};

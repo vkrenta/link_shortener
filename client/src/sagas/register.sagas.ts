@@ -4,7 +4,6 @@ import {
   REGISTER_USER,
   initPreloader,
   endPreloader,
-  disableButton,
   sendAlert,
 } from '../actions';
 import errorHandler from './errorHandler';
@@ -18,7 +17,6 @@ function* workerRegister(action: any) {
     });
 
     yield put(sendAlert(message));
-    yield put(disableButton());
   } catch (e) {
     yield errorHandler(e);
   } finally {

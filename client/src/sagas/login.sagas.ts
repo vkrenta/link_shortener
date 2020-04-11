@@ -12,9 +12,10 @@ function* workerLogin(action: any) {
       action.payload.password
     );
     yield put(setToken(token));
-    yield put(endPreloader());
   } catch (e) {
     yield errorHandler(e);
+  } finally {
+    yield put(endPreloader());
   }
 }
 

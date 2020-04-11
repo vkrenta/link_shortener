@@ -1,20 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ButtonOrPreloader from './components/ButtonOrPreloader';
 import { inputOnBlur, validateUrl, enableButtonOnInput } from '../validators';
 import { createShortLink, disableButton, clearCurrentLink } from '../actions';
 import CopyCurrentLink from './components/CopyCurrentLink';
 
 const Home: React.FC = () => {
-  const error = useSelector((state: any) => state.error);
   const currentLink = useSelector((state: any) => state.currentLink);
   const longUrl = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const buttonState: boolean = useSelector(
-    (state: any) => state.isButtonDisabled
-  );
-  const inProcess: boolean = useSelector((state: any) => state.inProcess);
 
   useEffect(() => {
     dispatch(disableButton());
@@ -28,10 +23,6 @@ const Home: React.FC = () => {
   );
 
   const token: string = useSelector((state: any) => state.token);
-
-  if (error?.code === 500) {
-    return <Redirect to="/internal" />;
-  }
 
   if (!token)
     return (
@@ -87,9 +78,7 @@ const Home: React.FC = () => {
               </div>
               {currentLink ? <CopyCurrentLink /> : <div />}
               <ButtonOrPreloader
-                buttonName="Create link"
-                inProcess={inProcess}
-                buttonState={buttonState}
+                buttonText="Create link"
                 onClick={() => {
                   dispatch(createShortLink(longUrl.current?.value!, token));
                 }}

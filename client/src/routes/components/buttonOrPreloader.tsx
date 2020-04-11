@@ -1,19 +1,17 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
-
-type preloaderProps = {
-  buttonName: string;
-  inProcess: boolean;
-  buttonState: boolean;
-  onClick: any;
-};
+import { preloaderProps } from '../../types';
+import { useSelector } from 'react-redux';
 
 const ButtonOrPreloader: React.FC<preloaderProps> = ({
-  buttonName,
-  inProcess,
-  buttonState,
+  buttonText,
   onClick,
 }) => {
+  const isButtonDisabled: boolean = useSelector(
+    (state: any) => state.isButtonDisabled
+  );
+
+  const inProcess: boolean = useSelector((state: any) => state.inProcess);
+
   if (inProcess)
     return (
       <div className="preloader-wrapper small active">
@@ -32,11 +30,11 @@ const ButtonOrPreloader: React.FC<preloaderProps> = ({
     );
   return (
     <button
-      disabled={buttonState}
+      disabled={isButtonDisabled}
       className="btn waves-effect waves-light blue"
       onClick={() => onClick()}
     >
-      {buttonName}
+      {buttonText}
     </button>
   );
 };
