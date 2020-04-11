@@ -134,7 +134,10 @@ export const loadLinks = (token: string): Action => ({
 });
 
 export const SET_LINKS = 'SET_LINKS';
+export const CLEAR_LINKS = 'CLEAR_LINKS';
 export const setLinks = (links: [LinkData]): Action => ({
   type: SET_LINKS,
   payload: { links },
 });
+
+export const clearLinks = (): Action => ({ type: CLEAR_LINKS });

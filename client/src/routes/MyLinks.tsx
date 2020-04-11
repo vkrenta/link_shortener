@@ -1,7 +1,8 @@
 import React, { useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadLinks } from '../actions';
+import { loadLinks, clearLinks } from '../actions';
 import { LinkData } from '../types';
+import Preloader from './components/Preloader';
 
 const MyLinks: FC = () => {
   const dispatch = useDispatch();
@@ -11,9 +12,22 @@ const MyLinks: FC = () => {
   useEffect(() => {
     dispatch(loadLinks(token));
   }, [dispatch, token]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearLinks());
+    },
+    [dispatch]
+  );
+
+  if (links == null) return <Preloader />;
+
+  if (!links.length) return <h2>You haven't any link</h2>;
+
   return (
     <>
       <h2 className="center">My links</h2>
+
       <ul className="collection">
         {links.map((link) => (
           <li className="collection-item" key={link.id}>
