@@ -76,7 +76,7 @@ const createLink = async (userId, long) => {
   const user = await users.findById(userId).exec();
   user.links++;
   user.save();
-  return data.short;
+  return `${process.env.BASE_URL}t/${data.short}`;
 };
 
 const nextShortLink = async () => {
@@ -107,7 +107,7 @@ const getLinksData = async userId => {
     sendData.push({
       id: x._id,
       long: `https://${x.long}`,
-      short: `${process.env.BASE_URL}${x.short}`,
+      short: `${process.env.BASE_URL}t/${x.short}`,
       clicks: x.clicks,
       createdAt: x.createdAt,
     });
