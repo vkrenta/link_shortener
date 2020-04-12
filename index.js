@@ -9,8 +9,7 @@ const validate = require('./helpers/secret_validation');
 const { handler } = require('./helpers/errors');
 const endMiddleware = require('./helpers/end_middleware');
 const tokenExpired = require('./helpers/tokenExpired');
-
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+const path = require('path');
 
 app.get('/favicon.ico', (req, res, next) => next());
 app.use(express.json({ extended: true }));
@@ -22,6 +21,16 @@ app.use(validate);
 useRoutes(app);
 app.use(tokenExpired);
 app.use(handler);
+
+if (process.env.NODE_ENV === 'production') {
+  console.log = () => {};
+
+  app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const start = async () => {
   await mongoose

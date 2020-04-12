@@ -11,7 +11,8 @@ router.post('/create', authMiddleware, async (req, res, next) => {
 
     if (long.includes(process.env.BASE_URL)) throwError(5003);
 
-    const short = process.env.BASE_URL + (await createLink(user.userId, long));
+    const short =
+      process.env.BASE_URL + 't/' + (await createLink(user.userId, long));
 
     res.status(200).send({ short });
   } catch (e) {
