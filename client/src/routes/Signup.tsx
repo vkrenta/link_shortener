@@ -71,7 +71,6 @@ const Signup = () => {
                     type="password"
                     name="password"
                     className="validate"
-                    data-error="Password must have as minimum 8 symbols, lower and upper case characters, numbers from 0 to 9"
                   />
                   <label className="active" htmlFor="password">
                     Password
