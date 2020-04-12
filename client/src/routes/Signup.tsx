@@ -75,6 +75,10 @@ const Signup = () => {
                   <label className="active" htmlFor="password">
                     Password
                   </label>
+                  <span className="helper-text">
+                    Min length 8, must contain upper-, lowercase characters and
+                    numbers
+                  </span>
                 </div>
 
                 <div className="input-field">
